@@ -1,0 +1,22 @@
+{% from 'Bootstrap5/form.html' import render_form %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Item</title>
+</head>
+<body>
+    <form action="{{ url_for('new_item') }}" method = 'post'>
+
+        {{ form.csrf_token }}
+        {{ form.hidden_tag() }}
+        
+        {{render_form(form)}}
+
+
+    </form>
+</body>
+</html>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+
+<!-- <form action = "{{url_for('signup')}}" method = 'POST'>
+    <label> User Name</label>
+    <input type = 'text' name="username">
+
+    <label> Password</label>
+    <input type="password" name = 'password'>
+    <label>Full Name</label>
+    <input type ="text",name = 'fullname'>
+    <button type="submit">Clikc here</button>
+</form> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% block content %}
+    {% include 'navbar.html'%}
+    <form method = 'post' action = '{{ url_for("signup") }}'>
+        {{ form.hidden_tag() }}
+        <h3>User Name</h3>
+        {{form.username}}
+
+        <h3>Password</h3>
+        {{form.password}}
+
+        <h3>Full Name</h3>
+        {{form.full_name}}
+
+        {{form.submit}}
+    </form>
+</body>
+{% endblock %}
+</html>
+
