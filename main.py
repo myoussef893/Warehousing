@@ -8,13 +8,19 @@ from datetime import datetime as dt
 from random import randint
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
+from flask_basicauth import BasicAuth
+
+
 ## CONFIGURATION SECTION 
 # create the extension
 db = SQLAlchemy()
 # create the app
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'password'
-app.config['FLASK_ADMIN_SWATCH'] = 'something'
+app.config['FLASK_ADMIN_SWATCH'] = 'cerulean'
+app.config['BASIC_AUTH_USERNAME'] = 'yousef'
+app.config['BASIC_AUTH_PASSWORD'] = 'password'
+
 
 # configure the SQLite database, relative to the app instance folder
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///project.db"
@@ -61,6 +67,12 @@ def load_user(user_id):
 
 ## THERE SHOULD BE THE FOLLOWING PAGES TO PROJECT, 1- HOME PAGE, 2- SIGN-UP PAGE, 3- SIGN-IN PAGE, 4-GET ALL SCANNED PRODUCTS PER USER, 5- DASHBOARD
 
+basic_auth = BasicAuth(app)
+@app.route('/secret')
+@basic_auth.required
+def secret_view():
+    return render_template('dashboard.html')
+
 # HOME PAGE
 @app.route('/')
 def home(): 
@@ -92,7 +104,7 @@ def login():
         user = db.session.execute(db.select(User).where(User.username==login_form.username.data)).scalar()
         if check_password_hash(user.password,enterd_password):
             login_user(user)
-            return redirect(url_for('dashboard'))
+            return redirect('admin')
     return render_template('login.html',form = login_form)
 
 # SIGNOUT PAGE
